@@ -12,7 +12,7 @@ void detect_opening() {
 }
 
 void setup() {
-
+  Serial.begin(9600);
 }
 
 void loop() {
