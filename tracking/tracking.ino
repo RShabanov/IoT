@@ -1,26 +1,23 @@
-int trig_pin = 11;
-int echo_pin = 10;
-int PIR_pin = 13; 
-int LIGHT_PIN = 8;
-int LASER_PIN = 9;
-//int IR_PIN = 9;
-long duration;
-
+const int TRIG_PIN = 11;
+const int ECHO_PIN = 10;
+const int PIR_pin = 13; 
+const int LIGHT_PIN = 8;
 
 void setup() {
-  pinMode(trig_pin, OUTPUT);
-  pinMode(echo_pin, INPUT);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
   pinMode(PIR_pin, INPUT);
   Serial.begin(9600);
 }
 
+// 1st
 void get_perfect_distance() {
-  digitalWrite(trig_pin, LOW);
+  digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
-  digitalWrite(trig_pin, HIGH);
+  digitalWrite(TRIG_PIN, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trig_pin, LOW);
-  duration = pulseIn(echo_pin, HIGH);
+  digitalWrite(TRIG_PIN, LOW);
+  long duration = pulseIn(ECHO_PIN, HIGH);
   float distance = duration / 2. * 0.0343; // in cm
   Serial.print("Perfect distance: ");
   Serial.println(distance);
@@ -28,12 +25,7 @@ void get_perfect_distance() {
 
 // 2nd
 bool get_PIR_distance() {
-  // CHANGE PIN - CAUSE IT IS FOR LASER
-  // BUT CODE THE SAME
   bool on = digitalRead(PIR_pin);
-//  Serial.println(on)[;
-
-  return !on;
 
   // to detect that we have distance that we need
   if (on) {
@@ -44,35 +36,28 @@ bool get_PIR_distance() {
   }
 }
 
+// 3rd
 void get_IR_distance() {
   float volts = analogRead(A0)*0.0048828125;  // value from sensor * (5/1024)
   float distance = 13*pow(volts, -1); // worked out from datasheet graph
   delay(1000); // slow down serial port 
 
-      Serial.print("Measured distance: ");
-    Serial.println(distance);   // print the distance 
-}
-
-// opening/closing
-void detect_opening() {
-  bool open_door = digitalRead(LASER_PIN);
-  if (open_door) {
-    Serial.println("Door is open");
-  }
-  else {
-    Serial.println("Door is closed");
-  }
+  Serial.print("Measured distance: ");
+  Serial.println(distance);
 }
 
 void loop() {
-  // 1st
-//  get_perfect_distance();
-// 4th
-//  if (get_PIR_distance()) {
-//    get_perfect_distance();
-//  }
-//3rd
-//  get_IR_distance();
-  detect_opening();
-  
+  // 1st task
+  // get_perfect_distance();
+
+  // 2nd task
+  // get_IR_distance();
+
+  // 3rd task
+  //  get_IR_distance();
+
+  // 4th task
+   if (!digitalRead(LASER_PIN)) {
+     get_perfect_distance();
+   }
 }
