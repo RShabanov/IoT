@@ -9,6 +9,6 @@ int MQTT_PORT = 1883;
 
 String BASE_MQTT_TOPIC = "shr-broker-esp8266";
 
-constexpr bool MODE_AP = true;
+constexpr bool MODE_AP = false;
 
 constexpr int LED_PIN = 2;

@@ -1,0 +1,6 @@
+Bridge mqtt:broker:emqx-io "MQTT Bridge" [ host="broker.emqx.io", port=1883, clientID="shr" ] {
+    Thing mqtt:topic:myThing "My thing" (mqtt:broker:emqx-io) {
+        Channels:
+        Type switch : Bulb [stateTopic="shr-broker-esp8266/state", on="on", off="off"]
+    }
+}

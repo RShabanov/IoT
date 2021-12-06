@@ -1,0 +1,1 @@
+Switch MyBulb "My Bulb" {channel="mqtt:topic:myThing:Bulb"}

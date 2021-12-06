@@ -1,0 +1,13 @@
+
+rule "MyBulbRule"
+
+when
+    Item MyBulb changed
+then
+    val mqttActions = getActions("mqtt", "mqtt:broker:emqx-io")
+    if (MyBulb.state == ON) {
+    mqttActions.publishMQTT("shr-broker-esp8266/command","open")
+    } else {
+    mqttActions.publishMQTT("shr-broker-esp8266/command","closed")
+    }
+end
