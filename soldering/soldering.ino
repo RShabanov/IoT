@@ -52,14 +52,14 @@ void loop() {
     s = analogRead((uint8_t)Direction::S);
 
      /*
-   * if Direction::N => 45*
+   * if Direction::N => 0*
    * if Direction::E => 90*
    * if Direction::S => 135*
    * if Direction::W => 180*
    */
 
   auto c = n;
-  auto angle = 45;
+  auto angle = 0;
   Direction dir2look = Direction::N;
   if (c < w) {
     dir2look = Direction::W;
@@ -81,7 +81,5 @@ void loop() {
   Serial.println(angle);
   
   servo.write(angle);
-  delay(1500);
-  servo.write(0);
-  
+  delay(500);
 }
