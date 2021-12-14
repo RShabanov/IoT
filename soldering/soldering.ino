@@ -1,9 +1,15 @@
+#include <Servo.h>
+
 enum class Direction : uint8_t {
   N = A0,
   E = A1,
   S = A2,
   W = A3,
 };
+
+constexpr uint8_t SERVO_PIN = 9;
+Servo servo;
+int angle = 0;
 
 void print_direction(Direction dir) {
   switch (dir) {
@@ -33,12 +39,49 @@ int direction2look() {
 
 void setup() {
   Serial.begin(9600);
+  servo.attach(SERVO_PIN);
 }
 
 void loop() {
-//  Serial.print("Sensor data: ");
-//  Serial.println(analogRead(A0));
-//  Serial.println("---------------------------------");
+//  direction2look();
+//  delay(1000);
+
+  auto n = analogRead((uint8_t)Direction::N),
+    w = analogRead((uint8_t)Direction::W),
+    e = analogRead((uint8_t)Direction::E),
+    s = analogRead((uint8_t)Direction::S);
+
+     /*
+   * if Direction::N => 45*
+   * if Direction::E => 90*
+   * if Direction::S => 135*
+   * if Direction::W => 180*
+   */
+
+  auto c = n;
+  auto angle = 45;
+  Direction dir2look = Direction::N;
+  if (c < w) {
+    dir2look = Direction::W;
+    c = w;
+    angle = 180;
+  }
+  if (c < e) {
+    dir2look = Direction::E;
+    c = e;
+    angle = 90;
+  }
+  if (c < s) {
+    dir2look = Direction::S;
+    c = s;
+    angle = 135;
+  }
+
+  Serial.print("Angle: ");
+  Serial.println(angle);
   
-  direction2look();
+  servo.write(angle);
+  delay(1500);
+  servo.write(0);
+  
 }
